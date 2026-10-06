@@ -1,0 +1,294 @@
+/* ===========================
+   REGISTER PAGE
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body.register-page{
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#f0fff4,#dff7e8);
+    overflow-x:hidden;
+}
+
+/* Left Section */
+
+.register-left{
+    background:#219653;
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+    text-align:center;
+    padding:60px;
+}
+
+.register-image{
+    width:100%;
+    max-width:480px;
+    height:auto;
+    object-fit:contain;
+    margin-bottom:40px;
+}
+
+.register-left h1{
+    font-size:58px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.register-left p{
+    font-size:24px;
+    line-height:1.7;
+    max-width:520px;
+}
+
+/* Right Section */
+
+.register-card{
+
+    width:100%;
+    max-width:560px;
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:25px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.10);
+
+}
+
+.register-card h2{
+
+    text-align:center;
+
+    font-size:46px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.register-card p{
+
+    text-align:center;
+
+}
+
+/* Inputs */
+
+.form-control{
+
+    height:55px;
+
+    border-radius:12px;
+
+    border:1px solid #d8d8d8;
+
+    transition:.3s;
+
+}
+
+.form-control:focus{
+
+    border-color:#219653;
+
+    box-shadow:0 0 10px rgba(33,150,83,.2);
+
+}
+
+/* Checkbox */
+
+.form-check-input{
+
+    width:18px;
+    height:18px;
+    cursor:pointer;
+
+}
+
+.form-check-label{
+
+    margin-left:8px;
+
+    cursor:pointer;
+
+}
+
+/* Button */
+
+.btn-success{
+
+    background:#219653;
+
+    border:none;
+
+    border-radius:12px;
+
+    height:55px;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-success:hover{
+
+    background:#177b43;
+
+    transform:translateY(-2px);
+
+}
+
+/* Links */
+
+a{
+
+    color:#219653;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* Divider */
+
+hr{
+
+    margin:30px 0;
+
+}
+
+/* Responsive */
+
+@media(max-width:991px){
+
+.register-left{
+
+    min-height:auto;
+
+    padding:50px 30px;
+
+}
+
+.register-left h1{
+
+    font-size:42px;
+
+}
+
+.register-left p{
+
+    font-size:20px;
+
+}
+
+.register-image{
+
+    max-width:320px;
+
+}
+
+.register-card{
+
+    margin:40px 20px;
+
+    padding:35px;
+
+}
+
+.register-card h2{
+
+    font-size:36px;
+
+}
+
+}
+/* Password Box */
+
+.password-box{
+
+    position:relative;
+
+}
+
+.password-box input{
+
+    padding-right:50px;
+
+}
+
+.toggle-password{
+
+    position:absolute;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    cursor:pointer;
+
+    color:#777;
+
+    font-size:20px;
+
+    transition:.3s;
+
+}
+
+.toggle-password:hover{
+
+    color:#219653;
+
+}
+/* Password Strength */
+
+.strength-bar{
+
+    width:100%;
+
+    height:8px;
+
+    background:#e9ecef;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-bottom:8px;
+
+}
+
+#strength-fill{
+
+    width:0;
+
+    height:100%;
+
+    transition:.4s;
+
+    border-radius:20px;
+
+}

@@ -1,0 +1,15 @@
+/* Water page only (shared layout is in sidebar.css) */
+
+.section-header{ margin-bottom:20px; }
+.section-header h3{ font-weight:700; }
+
+.water-entry{
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+.water-entry:last-child{ border-bottom:0; }
+.water-entry h6{ margin:0 0 2px; font-weight:600; }
+
+.progress{ height:25px; border-radius:20px; overflow:hidden; }
+.progress-bar{ font-weight:600; }
+

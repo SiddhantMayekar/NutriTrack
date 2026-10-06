@@ -1,0 +1,34 @@
+/* Nutrition page only (shared layout is in sidebar.css) */
+
+/* ===== MEAL CARDS ===== */
+.meal-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+.meal-card:hover{ transform:translateY(-4px); }
+.meal-card h3{ font-size:22px; font-weight:600; margin-bottom:15px; }
+
+.meal-row{
+    display:flex; justify-content:space-between;
+    align-items:center; gap:15px;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+.meal-row:last-child{ border-bottom:0; padding-bottom:0; }
+.meal-info h5{ margin:0 0 4px; font-size:18px; }
+.meal-macros{ text-align:right; }
+.meal-macros small{ display:block; color:#666; }
+.meal-macros form{ margin-top:10px; }
+
+/* ===== PHONE ===== */
+@media (max-width:576px){
+
+    .meal-card{ padding:16px; }
+    .meal-card h3{ font-size:18px; }
+    .meal-row{ flex-direction:column; align-items:flex-start; gap:8px; }
+    .meal-macros{ text-align:left; }
+}

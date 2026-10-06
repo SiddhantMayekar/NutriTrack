@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}Water Tracker{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/water.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="top-header">
+
+            <h2>Water Tracker</h2>
+
+            <div class="user-box">
+
+                <div class="profile-avatar">
+                {{ user.full_name[0] }}
+                </div>
+
+                <div>
+
+                    <h5>{{ user.full_name }}</h5>
+
+                    <small>Stay Hydrated Every Day 💧</small>
+
+                </div>
+
+            </div>
+        
+        </div>
+
+    <div class="summary-section">
+
+    <div class="summary-card">
+        <i class="bi bi-droplet-fill text-primary fs-1"></i>
+        <h5>Total Water</h5>
+        <h2>{{ total_water }} ml</h2>
+
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-bullseye text-success fs-1"></i>
+        <h5>Goal</h5>
+        <h2>{{ user.water_goal }} ml</h2>
+
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-graph-up-arrow text-warning fs-1"></i>
+        <h5>Progress</h5>
+        <h2>{{ progress }}%</h2>
+
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-cup-straw text-info fs-1"></i>
+        <h5>Remaining</h5>
+        <h2>{{ remaining }} ml</h2>
+
+    </div>
+
+</div>
+
+<div class="d-flex flex-wrap gap-2 justify-content-between align-items-center my-4">
+     <!-- History Button -->
+    <button
+        class="btn btn-outline-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#waterHistoryModal">
+
+        <i class="bi bi-clock-history me-2"></i>
+
+        Water History
+
+    </button>
+
+    <button
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#addWaterModal">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Water
+
+    </button>
+
+</div>
+<div class="card-box mt-4">
+
+    <div class="section-header">
+
+        <h3>
+
+            <i class="fa-solid fa-droplet text-primary"></i>
+
+            Today's Water Intake
+
+        </h3>
+
+    </div>
+
+    {% if water_logs %}
+
+    {% for log in water_logs %}
+
+    <div class="water-entry">
+
+        <div>
+            <h6>{{ log.amount }} ml</h6>
+
+            <small class="text-muted">
+                {{ log.drink_time.strftime("%I:%M %p") }}
+            </small>
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+<p class="text-muted">
+    No water intake recorded today.
+</p>
+
+{% endif %}
+
+</div>
+<div class="card-box mt-4">
+
+    <h4 class="mb-3">
+
+        Daily Progress
+
+    </h4>
+
+    <div class="progress" style="height:25px;">
+
+    <div
+        class="progress-bar bg-info"
+        role="progressbar"
+        style="width: {{ progress }}%;">
+
+        {{ progress }}%
+
+    </div>
+
+</div>
+    <p class="mt-3">
+
+        {{ total_water }} / {{ goal }} ml
+
+    </p>
+
+</div>
+
+{% endblock %}
+
+{% block modals %}
+
+<!-- Add Water Modal -->
+<div class="modal fade" id="addWaterModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <form action="{{ url_for('add_water') }}" method="POST">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        💧 Add Water Intake
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Amount -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Water Amount (ml)
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="amount"
+                            placeholder="Example: 250"
+                            min="50"
+                            step="50"
+                            required>
+
+                    </div>
+
+                    <!-- Time -->
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-droplet-fill"></i>
+
+                        Save Water
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+     WATER HISTORY MODAL
+========================================== -->
+
+<div class="modal fade"
+     id="waterHistoryModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+
+                <h4 class="modal-title">
+
+                    <i class="bi bi-clock-history me-2"></i>
+
+                    Water History
+
+                </h4>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover table-striped align-middle">
+
+                        <thead class="table-primary">
+
+                            <tr>
+
+                                <th>Date</th>
+
+                                <th>Time</th>
+
+                                <th>Water Intake</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% if water_history %}
+
+    {% for water in water_history %}
+
+    <tr>
+
+        <td>{{ water.drink_time.strftime('%d-%m-%Y') }}</td>
+
+        <td>{{ water.drink_time.strftime('%I:%M %p') }}</td>
+
+        <td>{{ water.amount }} ml</td>
+
+    </tr>
+
+    {% endfor %}
+
+{% else %}
+
+<tr>
+
+    <td colspan="3" class="text-center text-muted">
+
+        No water history found.
+
+    </td>
+
+</tr>
+
+{% endif %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

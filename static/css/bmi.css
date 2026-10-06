@@ -1,0 +1,28 @@
+/* BMI page only (shared layout is in sidebar.css) */
+
+.card-box h3{ margin-bottom:0; }
+
+.form-label{ font-weight:600; color:#444; }
+.form-control{
+    height:55px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:17px;
+}
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:0 0 0 .2rem rgba(25,135,84,.15);
+}
+.btn-success{ border-radius:12px; padding:12px 35px; }
+
+#bmiResult{ font-size:80px; font-weight:700; color:#198754; }
+#bmiStatus{ font-size:28px; font-weight:600; }
+.card-box p{ color:#666; font-size:18px; }
+
+@media (max-width:576px){
+    .form-control{ height:48px; font-size:16px; }
+    .btn-lg{ width:100%; padding-left:1rem !important; padding-right:1rem !important; }
+    #bmiResult{ font-size:56px; }
+    #bmiStatus{ font-size:20px; }
+    .card-box p{ font-size:15px; }
+}

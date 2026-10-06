@@ -1,0 +1,20 @@
+/* Activity page only (shared layout is in sidebar.css) */
+
+/* ===== TODAY'S ACTIVITIES ===== */
+.activity-container{
+    background:#fff;
+    margin-top:30px;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+.activity-table h3{ color:#198754; font-weight:700; }
+.activity-table table{ margin-bottom:0; }
+.activity-table thead th{ background:#f8f9fa; font-weight:600; white-space:nowrap; }
+.activity-table td{ vertical-align:middle; white-space:nowrap; }
+
+@media (max-width:576px){
+    .activity-container{ padding:18px; margin-top:20px; }
+    .activity-table h3{ font-size:20px; }
+    .activity-table table{ font-size:14px; }
+}

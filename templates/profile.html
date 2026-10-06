@@ -1,0 +1,585 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="top-header">
+
+            <h2>My Profile</h2>
+
+            <div class="user-box">
+
+                <div class="profile-avatar">
+                {{ user.full_name[0] }}
+                </div>
+
+                <div>
+
+                    <h5>{{ user.full_name }}</h5>
+
+                    <small>Healthy Lifestyle Starts Here</small>
+
+                </div>
+
+            </div>
+
+        </div>
+    
+        <!-- Profile Header -->
+        <section class="profile-header">
+
+    <!-- Profile Image -->
+
+    <div class="profile-image">
+
+        <img src="{{ url_for('static', filename='images/profile.png') }}"
+             alt="Profile">
+
+    </div>
+
+    <!-- Profile Information -->
+
+    <div class="profile-info flex-grow-1">
+
+        <!-- Top Row -->
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <h2>{{ user.full_name }}</h2>
+
+                <p class="text-muted">
+                    Healthy Lifestyle Starts Here 🌿
+                </p>
+
+            </div>
+
+            <button
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#editProfileModal">
+
+                <i class="fa-solid fa-pen"></i>
+
+                Edit Profile
+
+            </button>
+
+        </div>
+
+        <hr>
+
+        <!-- Profile Details -->
+
+        <div class="row mt-3">
+
+            <div class="col-md-6 mb-3">
+                <strong><i class="fa-solid fa-envelope text-success"></i> Email</strong><br>
+                {{ user.email }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong><i class="fa-solid fa-phone text-success"></i> Phone</strong><br>
+                {{ user.phone or "Not Added" }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong><i class="fa-solid fa-venus-mars text-success"></i> Gender</strong><br>
+                {{ user.gender or "Not Added" }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong><i class="fa-solid fa-ruler-vertical text-success"></i> Height</strong><br>
+                {{ user.height or "--" }} cm
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong><i class="fa-solid fa-weight-scale text-success"></i> Weight</strong><br>
+                {{ user.weight or "--" }} kg
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong><i class="fa-solid fa-calendar text-success"></i> Date of Birth</strong><br>
+                {{ user.dob or "Not Added" }}
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Statistics -->
+<div class="summary-section">
+
+    <div class="summary-card">
+        <i class="bi bi-heart-pulse-fill text-danger fs-1"></i>
+        <h5>BMI</h5>
+        <h2 id="bmi-card">--</h2>
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-fire text-warning fs-1"></i>
+        <h5>Daily Streak</h5>
+        <h2>15 Days</h2>
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-droplet-fill text-primary fs-1"></i>
+        <h5>Daily Water Goal</h5>
+        <h2>{{ user.water_goal or 0 }} ml</h2>
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-egg-fried text-success fs-1"></i>
+        <h5>Calorie Goal</h5>
+        <h2>{{ user.calorie_goal or 0 }} kcal</h2>
+    </div>
+
+</div>
+
+<!-- Content -->
+        <div class="profile-container">
+
+            <!-- Left -->
+            <div class="left-column">
+
+                <!-- Personal -->
+
+                <!-- Health -->
+                <div class="card-box">
+
+    <div class="section-header">
+
+        <h3>
+            <i class="fa-solid fa-heart-pulse"></i>
+            Health Information
+        </h3>
+
+    </div>
+
+    <form method="POST" action="/update-health" class="profile-form">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-4">
+
+                <label>Height (cm)</label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    name="height"
+                    value="{{ user.height or '' }}">
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>Weight (kg)</label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    name="weight"
+                    value="{{ user.weight or '' }}">
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>BMI</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+
+                    id="bmi"
+                    readonly>
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>Goal Weight (kg)</label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    name="goal_weight"
+                    value="{{ user.goal_weight or '' }}">
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>Blood Group</label>
+
+                <select class="form-select" name="blood_group">
+
+                    <option>Select</option>
+                    <option value="A+" {% if user.blood_group=="A+" %}selected{% endif %}>A+</option>
+                    <option value="A-" {% if user.blood_group=="A-" %}selected{% endif %}>A-</option>
+                    <option value="B+" {% if user.blood_group=="B+" %}selected{% endif %}>B+</option>
+                    <option value="B-" {% if user.blood_group=="B-" %}selected{% endif %}>B-</option>
+                    <option value="AB+" {% if user.blood_group=="AB+" %}selected{% endif %}>AB+</option>
+                    <option value="AB-" {% if user.blood_group=="AB-" %}selected{% endif %}>AB-</option>
+                    <option value="O+" {% if user.blood_group=="O+" %}selected{% endif %}>O+</option>
+                    <option value="O-" {% if user.blood_group=="O-" %}selected{% endif %}>O-</option>
+                    
+                </select>
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>Activity Level</label>
+
+                <select class="form-select" name="activity_level">
+
+                    <option value="Sedentary" {% if user.activity_level=="Sedentary" %}selected{% endif %}>
+                     Sedentary
+                    </option>
+
+                    <option value="Lightly Active" {% if user.activity_level=="Lightly Active" %}selected{% endif %}>
+                    Lightly Active
+                    </option>
+
+                    <option value="Moderately Active" {% if user.activity_level=="Moderately Active" %}selected{% endif %}>
+                    Moderately Active
+                    </option>
+
+                    <option value="Very Active" {% if user.activity_level=="Very Active" %}selected{% endif %}>
+                    Very Active
+                    </option>
+
+                    <option value="Athlete" {% if user.activity_level=="Athlete" %}selected{% endif %}>
+                    Athlete
+                    </option>
+                </select>
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>Daily Water Goal (ml)</label>
+
+                <input
+                    type="number"
+                    step="0.1"
+                    class="form-control"
+                    name="water_goal"
+                    value="{{ user.water_goal or '' }}">
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <label>Daily Calorie Goal</label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    name="calorie_goal"
+                    value="{{ user.calorie_goal or '' }}">
+
+            </div>
+
+        </div>
+
+        <button class="btn btn-success save-btn">
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            Save Health Information
+
+        </button>
+
+    </form>
+
+</div>
+
+            </div>
+
+            <!-- Right -->
+   
+</div>
+
+{% endblock %}
+
+{% block modals %}
+
+<!-- ==========================
+     Edit Profile Modal
+========================== -->
+
+<div class="modal fade"
+     id="editProfileModal"
+     tabindex="-1"
+     aria-labelledby="editProfileModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="editProfileModalLabel">
+
+                    <i class="fa-solid fa-user-pen text-success me-2"></i>
+
+                    Edit Profile
+
+                </h4>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <!-- Form -->
+
+            <form method="POST" action="/update-profile">
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <!-- Full Name -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="full_name"
+                                value="{{ user.full_name }}"
+                                required
+                                minlength="3"
+                                maxlength="50"
+                                placeholder="Enter your full name">
+
+                        </div>
+
+                        <!-- Email -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                class="form-control"
+                                value="{{ user.email }}"
+                                readonly>
+
+                        </div>
+
+                        <!-- Phone -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Phone
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="phone"
+                                value="{{ user.phone or '' }}"
+                                required
+                                pattern="[0-9]{10}"
+                                maxlength="10"
+                                placeholder="Enter 10-digit phone number"
+                                >
+
+                        </div>
+
+                        <!-- Gender -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Gender
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="gender"
+                                required>
+
+                                <option value="Male"
+                                {% if user.gender=="Male" %}selected{% endif %}>
+                                    Male
+                                </option>
+
+                                <option value="Female"
+                                {% if user.gender=="Female" %}selected{% endif %}>
+                                    Female
+                                </option>
+
+                                <option value="Other"
+                                {% if user.gender=="Other" %}selected{% endif %}>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Date of Birth -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Date of Birth
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="dob"
+                                name="dob"
+                                value="{{ user.dob or '' }}"
+                                required>
+
+                        </div>
+
+                        <!-- Occupation -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Occupation
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="occupation"
+                                value="{{ user.occupation or '' }}">
+
+                        </div>
+
+                        <!-- City -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="city"
+                                value="{{ user.city or '' }}">
+
+                        </div>
+
+                        <!-- Country -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Country
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="country"
+                                value="{{ user.country or '' }}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                       <i class="fa-solid fa-xmark me-2"></i>
+                        Cancel
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fa-solid fa-floppy-disk me-2"></i>
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    // BMI calculator (Health Information form + stats card)
+    function calculateBMI(){
+        const height = parseFloat(document.querySelector('[name="height"]').value);
+        const weight = parseFloat(document.querySelector('[name="weight"]').value);
+        const bmiInput = document.getElementById("bmi");
+        const bmiCard = document.getElementById("bmi-card");
+
+        if(height > 0 && weight > 0){
+            const bmi = (weight / ((height/100) * (height/100))).toFixed(1);
+            bmiInput.value = bmi;
+            bmiCard.innerHTML = bmi;
+        }else{
+            bmiInput.value = "";
+            bmiCard.innerHTML = "--";
+        }
+    }
+
+    document.querySelector('[name="height"]').addEventListener("input", calculateBMI);
+    document.querySelector('[name="weight"]').addEventListener("input", calculateBMI);
+    calculateBMI();
+
+    // Date of birth cannot be in the future
+    const dobInput = document.getElementById("dob");
+    if(dobInput){
+        dobInput.max = new Date().toISOString().split("T")[0];
+    }
+});
+</script>
+{% endblock %}

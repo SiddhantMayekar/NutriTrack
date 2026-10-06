@@ -1,0 +1,397 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="top-header">
+
+        <h2>Dashboard</h2>
+
+        <div class="user-box">
+
+            <div class="profile-avatar">
+
+                {{ user.full_name[0] }}
+
+            </div>
+
+            <div>
+
+                <h5>{{ user.full_name }}</h5>
+
+                <small>Healthy Living Starts Here</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Welcome Card -->
+
+    <div class="welcome-card">
+
+        <h2>
+
+            Welcome Back, {{ user.full_name }} 👋
+
+        </h2>
+
+        <p>
+
+            Track your meals, monitor your health, and achieve your wellness goals with NutriTrack.
+
+        </p>
+
+    </div>
+
+    <!-- Summary Cards -->
+<div class="summary-section">
+
+    <div class="summary-card">
+        <i class="bi bi-fire text-danger fs-1"></i>
+        <h5>Calories</h5>
+        <h2>{{ total_calories }} kcal</h2>
+        <small class="text-muted">Goal: {{ user.calorie_goal }} kcal</small>
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-droplet-fill text-primary fs-1"></i>
+        <h5>Water Intake</h5>
+        <h2>{{ total_water }} ml</h2>
+        <small class="text-muted">Goal: {{ user.water_goal }} ml</small>
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-heart-pulse-fill text-warning fs-1"></i>
+        <h5>BMI</h5>
+        <h2>{{ bmi }}</h2>
+        <small class="text-muted">{{ bmi_status }}</small>
+    </div>
+
+    <div class="summary-card">
+        <i class="bi bi-activity text-success fs-1"></i>
+        <h5>Activity</h5>
+        <h2>{{ total_activity_calories }} kcal</h2>
+        <small class="text-muted">Calories Burned</small>
+    </div>
+
+</div>
+
+<!-- ==========================
+     Progress Overview
+========================== -->
+<!-- ==========================
+     Progress Overview
+========================== -->
+
+<div class="row mt-4">
+
+    <!-- Nutrition Progress -->
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="progress-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h4>
+
+                    <i class="bi bi-egg-fried text-success"></i>
+
+                    Nutrition Progress
+
+                </h4>
+
+            </div>
+
+            <p class="text-muted mb-2">
+
+                {{ total_calories }} / {{ user.calorie_goal }} kcal
+
+            </p>
+
+            <div class="progress custom-progress">
+
+                <div class="progress-bar bg-success progress-label"
+                     role="progressbar"
+                     style="width:{{ nutrition_percent }}%;">
+
+                    {{ total_calories }} / {{ user.calorie_goal }} kcal
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Water Progress -->
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="progress-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h4>
+
+                    <i class="bi bi-droplet-fill text-primary"></i>
+
+                    Water Intake
+
+                </h4>
+
+            </div>
+
+            <p class="text-muted mb-2">
+
+                {{ total_water }} / {{ user.water_goal }} ml
+
+            </p>
+
+            <div class="progress custom-progress">
+
+                <div class="progress-bar bg-primary progress-label"
+                     role="progressbar"
+                     style="width:{{ water_percent }}%;">
+
+                    {{ total_water }} / {{ user.water_goal }} ml
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================
+     Today's Meals
+========================== -->
+<!-- ==========================
+     Today's Meals
+========================== -->
+
+<div class="meal-card mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h3>
+
+            <i class="bi bi-egg-fried text-success"></i>
+
+            Today's Meals
+
+        </h3>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Breakfast -->
+
+        <div class="col-6 col-lg-3 mb-3 mb-md-4">
+
+            <div class="meal-item">
+
+                <div class="meal-icon bg-warning">
+
+                    🍳
+
+                </div>
+
+                <h5>Breakfast</h5>
+
+                <p>{{ meal_cards["Breakfast"]["food"] }}</p>
+
+                <span>{{ meal_cards["Breakfast"]["calories"] }} kcal</span>
+
+            </div>
+
+        </div>
+
+        <!-- Lunch -->
+
+        <div class="col-6 col-lg-3 mb-3 mb-md-4">
+
+            <div class="meal-item">
+
+                <div class="meal-icon bg-success">
+
+                    🍛
+
+                </div>
+
+                <h5>Lunch</h5>
+
+                <p>{{ meal_cards["Lunch"]["food"] }}</p>
+
+                <span>{{ meal_cards["Lunch"]["calories"] }} kcal</span>
+
+            </div>
+
+        </div>
+
+        <!-- Snacks -->
+
+        <div class="col-6 col-lg-3 mb-3 mb-md-4">
+
+            <div class="meal-item">
+
+                <div class="meal-icon bg-info">
+
+                    🍎
+
+                </div>
+
+                <h5>Snacks</h5>
+
+                <p>{{ meal_cards["Snacks"]["food"] }}</p>
+
+                <span>{{ meal_cards["Snacks"]["calories"] }} kcal</span>
+
+            </div>
+
+        </div>
+
+        <!-- Dinner -->
+
+        <div class="col-6 col-lg-3 mb-3 mb-md-4">
+
+            <div class="meal-item">
+
+                <div class="meal-icon bg-danger">
+
+                    🍽️
+
+                </div>
+
+                <h5>Dinner</h5>
+
+                <p>{{ meal_cards["Dinner"]["food"] }}</p>
+
+                <span>{{ meal_cards["Dinner"]["calories"] }} kcal</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================
+     Recent Activity
+========================== -->
+<!-- ==========================
+     Recent Activity
+========================== -->
+
+<div class="activity-card mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h3>
+
+            <i class="bi bi-activity text-success"></i>
+
+            Recent Activity
+
+        </h3>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Activity</th>
+
+                    <th>Duration</th>
+
+                    <th>Calories</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for activity in recent_activities %}
+
+                <tr>
+
+                    <td>{{ activity.activity_name }}</td>
+
+                    <td>{{ activity.duration }} min</td>
+
+                    <td>{{ activity.calories }} kcal</td>
+
+                    <td>
+
+                        {% if activity.status == "Completed" %}
+
+                        <span class="badge bg-success">
+
+                            {{ activity.status }}
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-warning text-dark">
+
+                            {{ activity.status }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="4" class="text-center text-muted">
+
+                        No activities added today.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block modals %}
+
+<!-- End Main Content -->
+
+{% endblock %}

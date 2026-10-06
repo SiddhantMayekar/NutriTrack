@@ -1,0 +1,254 @@
+/*==================================
+        LOGIN PAGE
+===================================*/
+
+.login-body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#edf9f0,#dff6e7,#f7fffb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.login-left{
+
+background:linear-gradient(135deg,#198754,#2db86d);
+
+color:white;
+
+border-radius:30px 0 0 30px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:60px;
+
+min-height:700px;
+
+}
+
+.login-image{
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+@keyframes floatImage{
+
+0%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(-12px);
+
+}
+
+100%{
+
+transform:translateY(0px);
+
+}
+
+}
+
+.login-card{
+
+animation:fadeUp .8s ease;
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"],
+.login-form input[type="text"]{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ddd;
+}
+
+.btn-success{
+
+height:55px;
+
+font-size:18px;
+
+font-weight:600;
+
+border-radius:14px;
+
+transition:.3s;
+
+}
+
+.btn-success:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 12px 30px rgba(25,135,84,.35);
+
+}
+.btn-outline-dark{
+
+height:52px;
+
+border-radius:14px;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.btn-outline-dark:hover{
+
+background:#198754;
+
+border-color:#198754;
+
+color:white;
+
+}
+
+.login-card hr{
+
+opacity:.15;
+
+}
+
+.login-card:hover{
+
+transform:translateY(-4px);
+
+transition:.3s;
+
+}
+
+.login-left h1{
+
+font-size:3rem;
+
+font-weight:700;
+
+}
+
+.login-left p{
+
+font-size:20px;
+
+max-width:450px;
+
+margin:auto;
+
+}
+.form-control{
+
+height:55px;
+
+border-radius:14px;
+
+padding-left:18px;
+
+font-size:16px;
+
+}
+
+.form-control:focus{
+
+border-color:#198754;
+
+box-shadow:0 0 0 .25rem rgba(25,135,84,.18);
+
+}
+@media(max-width:991.98px){
+
+    /* Show the image on mobile as a green banner above the form */
+    .login-left{
+        display:flex;
+        border-radius:0 0 30px 30px;
+        padding:30px 20px;
+        min-height:auto;
+    }
+
+    .login-image{
+        max-width:220px;
+    }
+
+    .login-left h1{
+        font-size:1.6rem;
+        margin-top:15px !important;
+    }
+
+    .login-left p{
+        font-size:15px;
+        margin-bottom:0;
+    }
+
+    .login-card{
+        width:95%;
+        margin:30px auto;
+    }
+}
+
+@media(max-width:576px){
+
+    .login-image{
+        max-width:170px;
+    }
+
+    .login-left{
+        padding:25px 15px;
+    }
+
+    .login-left h1{
+        font-size:1.3rem;
+    }
+
+    .login-left p{
+        font-size:14px;
+    }
+}
+
+/* Remember Me checkbox */
+.form-check-input{
+    width:18px;
+    height:18px;
+    padding:0;
+    margin-top:3px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.form-check-label{
+    margin-left:8px;
+    cursor:pointer;
+}

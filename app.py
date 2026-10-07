@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
+import os
+from db import MySQL
 import config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
@@ -8,13 +8,12 @@ from datetime import date, datetime
 
 
 app = Flask(__name__)
-app.secret_key = "nutritrack_secret_key"
-app.secret_key = "NutriTrack_Project_2026"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-only-change-me")
 app.config["MYSQL_HOST"] = config.MYSQL_HOST
+app.config["MYSQL_PORT"] = config.MYSQL_PORT
 app.config["MYSQL_USER"] = config.MYSQL_USER
 app.config["MYSQL_PASSWORD"] = config.MYSQL_PASSWORD
 app.config["MYSQL_DB"] = config.MYSQL_DB
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 @app.route("/")
@@ -39,7 +38,7 @@ def register():
         hashed_password = generate_password_hash(password)
 
         # Connect to MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor = mysql.connection.cursor()
 
         # Check if email already exists
         cursor.execute(
@@ -878,4 +877,5 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)),
+            debug=os.environ.get("FLASK_DEBUG") == "1")

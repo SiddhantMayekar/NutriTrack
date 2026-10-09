@@ -2,7 +2,6 @@ import os
 import ssl
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
-import config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
 
@@ -60,11 +59,13 @@ class MySQL:
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-only-change-me")
-app.config["MYSQL_HOST"] = config.MYSQL_HOST
-app.config["MYSQL_PORT"] = config.MYSQL_PORT
-app.config["MYSQL_USER"] = config.MYSQL_USER
-app.config["MYSQL_PASSWORD"] = config.MYSQL_PASSWORD
-app.config["MYSQL_DB"] = config.MYSQL_DB
+# Database settings come from environment variables (set on Render).
+# Defaults below are only for running on your own laptop.
+app.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST", "localhost")
+app.config["MYSQL_PORT"] = int(os.environ.get("MYSQL_PORT", 3306))
+app.config["MYSQL_USER"] = os.environ.get("MYSQL_USER", "root")
+app.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD", "YOUR_LOCAL_PASSWORD")
+app.config["MYSQL_DB"] = os.environ.get("MYSQL_DB", "nutritrack")
 
 mysql = MySQL(app)
 @app.route("/")

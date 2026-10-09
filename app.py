@@ -1,10 +1,61 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
 import os
-from db import MySQL
+import ssl
+import pymysql
+from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 import config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
 
+
+
+
+# ==========================================================
+# MySQL connection using PyMySQL (replaces flask_mysqldb)
+# Usage is unchanged:  mysql.connection.cursor() / .commit()
+# ==========================================================
+class MySQL:
+    def __init__(self, app=None):
+        self.app = app
+        if app is not None:
+            app.teardown_appcontext(self._close)
+
+    def _connect(self):
+        cfg = self.app.config
+        kwargs = dict(
+            host=cfg["MYSQL_HOST"],
+            port=int(cfg.get("MYSQL_PORT", 3306)),
+            user=cfg["MYSQL_USER"],
+            password=cfg["MYSQL_PASSWORD"],
+            database=cfg["MYSQL_DB"],
+            cursorclass=pymysql.cursors.DictCursor,
+            charset="utf8mb4",
+            connect_timeout=15,
+        )
+
+        # Aiven (cloud MySQL) needs SSL
+        ca_file = os.environ.get("DB_SSL_CA")
+        if ca_file and os.path.exists(ca_file):
+            kwargs["ssl"] = {"ca": ca_file}
+        elif os.environ.get("DB_SSL", "").lower() in ("1", "true", "yes"):
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE   # encrypted, certificate not verified
+            kwargs["ssl"] = ctx
+
+        return pymysql.connect(**kwargs)
+
+    @property
+    def connection(self):
+        if "mysql_db" not in g:
+            g.mysql_db = self._connect()
+        else:
+            g.mysql_db.ping(reconnect=True)
+        return g.mysql_db
+
+    def _close(self, exc=None):
+        conn = g.pop("mysql_db", None)
+        if conn is not None:
+            conn.close()
 
 
 app = Flask(__name__)
